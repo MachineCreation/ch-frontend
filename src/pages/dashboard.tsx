@@ -21,7 +21,7 @@ function dashboard() {
           withCredentials: true,
         });
         setUser(response.data);
-      } catch (error) {
+      } catch (error: any) {
         if (error.response && error.response.status === 401) {
           // Handle unauthorized access
           navigate('/');
