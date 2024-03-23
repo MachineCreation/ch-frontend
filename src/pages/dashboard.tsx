@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { User } from "./types"
 import logo from '../images/Crypto-hindsight-logo.png';
-import dropButton from '../images/menu_button.png'
+import dropButton from '../images/menu_button.png';
+import DropdownContent from '../components/drop-menu';
 
 
 
@@ -13,12 +14,16 @@ function dashboard() {
   const navigate = useNavigate()
   const [user, setUser] = useState<User | null>(null);
   const [isvisable, setisVisable] = useState(false)
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/@me`, {
-          withCredentials: true,
+        const response = await axios.get(`https://chbackend-psu2.onrender.com/@me`, {
+        headers:  
+        {
+            "x-access-token": `Bearer ${token}`
+          }
         });
         setUser(response.data);
       } catch (error: any) {
@@ -31,7 +36,6 @@ function dashboard() {
         }
       }
     };
-  
     fetchData();
   }, []);
 
@@ -40,51 +44,12 @@ function dashboard() {
       console.log(isvisable)
   }
 
-  const openPopup = async ()=> {
-    
-  }
-
-  const APIkey = async () => {
-        
-    try{
-
-        await axios.put(`http://127.0.0.1:5000/API_key`,
-        {
-        //API_key,
-        });
-
-        //window.location.reload();
-    }
-    catch (error: any) {
-        if (error.response.status === 401) {
-            alert("Unauthorized, no current user found")
-          }
-    }
-};
-
-  const grafChange = async () => {
-
-    try{
-
-        await axios.put(`http://127.0.0.1:5000/create`,
-        {
-            //red,
-            //blue,
-           // green,
-           // yellow,
-        });
-
-        //window.location.reload();
-    }
-    catch (error:any) {
-        console.log(error)
-    }
-}
+  
 
 
   return (
     <div>
-      <div className='t-white'>l</div>
+      <div className='t-white'></div>
       { user != null ? 
       (
         <div>
@@ -100,13 +65,12 @@ function dashboard() {
            (
             <></>
            ):(
-              <div onClick={DropMenu} className='close-aux-menu'>
-                           
-              <div className="dropdown-content">
-                <div  className="dropdown-item inter-font">Profile</div>
-                <a className="dropdown-item inter-font" href="http://Coinbase.com/login" target="_blank">Coinbase</a>
-                <div className="dropdown-item inter-font">Time Zone</div>
-              </div>
+              <div className='close-aux-menu'>                           
+                <DropdownContent 
+                user={user}
+                isvisable = {isvisable}
+                DropMenu = {DropMenu}
+                 />
               </div>
            )
             }

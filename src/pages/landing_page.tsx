@@ -16,30 +16,28 @@ function landing_page() {
     }
 
 
-    const login = async () => {
-      try{
-      
-        const response = await axios.post(`http://127.0.0.1:5000/login`,
-        {
-          headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*'
-          },
-          user_name,
-          password,
-        })
-        navigate('/dashboard')
-      }
-      catch (error: any) {
-        console.error('Login error', error)
+    const Login = async () => {
+        try {
+          const response = await axios.post('https://chbackend-psu2.onrender.com/signin', 
+            { 
+              email,
+              password
+            });
+          const token = response.data.token;
+          localStorage.setItem('token', token);                 // Store token in localStorage
+
+          navigate('/dashboard')                                // Navigate to dashboard
+
+        } catch (error) {
+          console.error('Login failed:', error);
         }
-      }
+      };
 
 
     const register = async () => {
       
       try{
-        await axios.post(`http://127.0.0.1:5000/register`,
+        await axios.post(`https://chbackend-psu2.onrender.com/register`,
         {
             email,
             password,
@@ -126,8 +124,8 @@ function landing_page() {
             <form className='user-info-form'>
                 <input type="text"
                   className='sign-log-input'
-                  value={user_name}
-                  onChange={(e) => setUser_name(e.target.value)}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder='User name'>
                     </input>
 
@@ -140,7 +138,7 @@ function landing_page() {
 
                 <div>
                 <button type='button'
-                        onClick={login}
+                        onClick={Login}
                         id="submit-btn" 
                         className="inter-font-bold">
                         <span className='btn-span'>

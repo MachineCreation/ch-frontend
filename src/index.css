@@ -34,6 +34,11 @@
   .margin-2 {
     margin: 2px;
   }
+
+  .margin-3 {
+    margin: 3px;
+  }
+
   .t-cyan {
     color: rgb(0, 163, 163);
   }
@@ -195,7 +200,7 @@
                                                                   /* profile popup "container and content boxes also used with sign in modal */
   
   .popup-container {
-      display: flex;
+      display: block;
       position: fixed;
       top: 0;
       left: 0;
@@ -221,7 +226,21 @@
       box-shadow: 0px 0px 40px 5px rgba(0,20,202,0.5);
   }
 
+  .graf-form {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    background-color: aqua;
+  }
   
+  .API-form {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    display: flex;
+    width: 80%;
+  }
+
   label {
       margin-bottom: 4px;
   }
