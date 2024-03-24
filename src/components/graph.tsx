@@ -81,23 +81,23 @@ const LineGraph= (props: LineGraphProps) => {
 
 
                                                                 // Example async data fetching functions
-const fetchDataFunction1 = async () => {
-  const res = Array.from({ length: 50 }, () => Math.floor(Math.random() * 100));
-  console.log(res)
-  return res
-};
+//const fetchDataFunction1 = async () => {
+//  const res = Array.from({ length: 50 }, () => Math.floor(Math.random() * 100));
+//  console.log(res)
+//  return res
+//};
 
-const fetchDataFunction2 = async () => {
-  return Array.from({ length: 50 }, () => Math.floor(Math.random() * 100));
-};
+//const fetchDataFunction2 = async () => {
+//  return Array.from({ length: 50 }, () => Math.floor(Math.random() * 100));
+//};
 
-const fetchDataFunction3 = async () => {
-  return Array.from({ length: 50 }, () => Math.floor(Math.random() * 100));
-};
+//const fetchDataFunction3 = async () => {
+//  return Array.from({ length: 50 }, () => Math.floor(Math.random() * 100));
+//};
 
-const fetchDataFunction4 = async () => {
-  return Array.from({ length: 50 }, () => Math.floor(Math.random() * 100));
-};
+//const fetchDataFunction4 = async () => {
+//  return Array.from({ length: 50 }, () => Math.floor(Math.random() * 100));
+//};
 
 
                                                                 // the real deal api calls
