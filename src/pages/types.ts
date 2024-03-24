@@ -7,4 +7,9 @@ export interface User {
     blue: string;
     green: string;
     yellow: string;
+    time_zone: string;
   }
+
+export interface GrafLine {
+  redLine: [];
+}

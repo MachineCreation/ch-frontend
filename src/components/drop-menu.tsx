@@ -1,7 +1,5 @@
 import { User } from '../pages/types';
-import axios from 'axios';
 import { useState } from 'react';
-import dropButton from '../images/menu_button.png';
 
 interface DropdownContentProps {
   user: User;
@@ -16,80 +14,73 @@ const DropdownContent= (props: DropdownContentProps) => {
     const [APIkey , setAPIkey] = useState(props.user.APIkey)
     const [vismodal, setvisModal] = useState(false);
     const token = localStorage.getItem('token');
-
+    const new_key = {"API_key": APIkey}
     
 
     const ocPopup = async ()=> {
-        setvisModal(!vismodal)
-        let tell = `popup ${vismodal}`
-        console.log(tell)
-    }
+        setvisModal(!vismodal);
+    };
 
-    const APIkeys = async () => {
-          
-      try{
-  
-          const response = await fetch(`https://chbackend-psu2.onrender.com/APIkey`,
-          {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'access-Control-Allow-Headers': 'x-access-token',
-                'x-access-token': `Bearer ${token}`
-            },
-            Body: JSON.stringify(APIkey)
-          });
-          console.log(response)
-          //window.location.reload();
-      }
-      catch (error: any) {
-          return (error.response)
-      }
-  };
-  
-    const grafChange = async () => {
-  
-      try{
-  
-          await axios.put(`http://127.0.0.1:5000/create`,
-          {
-              //red,
-              //blue,
-             // green,
-             // yellow,
-          });
-  
-          //window.location.reload();
-      }
-      catch (error:any) {
-          console.log(error)
-      }
-  }
+
+
+
+  const update = async () => {
+    const response = await fetch(`https://chbackend-psu2.onrender.com/APIkey`,
+    {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'x-access-token': `Bearer ${token}`
+        },
+        body: JSON.stringify(new_key)
+    })
+    ocPopup();
+    if (!response.ok) {
+        throw new Error('Failed to update data on the server');
+    };
+    return await response.json()
+}
+
+
   return (
     <div>
         {vismodal ? (
             
                 <div className="popup-container">
-                    <div className="popup-content">
-                        <h1 className='t-white margin-3
-                        '>User profile: {props.user.user_name}</h1>
+                    <div className="popup-content inter-font">
+                        <h1 className='t-white margin-3'>
+                            User name: {props.user.user_name}
+                            </h1>
                             <div className="API-form">
                                 <form >
+                                <label htmlFor="APIkey"> API Key</label>
                                 <input type="text"
+                                    name='APIkey'
                                     className='sign-log-input'
                                     value={APIkey}
                                     onChange={(e) => setAPIkey(e.target.value)}
-                                    placeholder={"API key here"}>
+                                    placeholder={`${APIkey}`}>
                                         </input>
-                                <button type='button'
-                                    onClick={APIkeys}
-                                    id="submit-btn" 
-                                    className="inter-font-bold">
-                                    <span className='btn-span'>
-                                        Submit
-                                        </span>
-                                    </button>
+                                <div className='button-box'>
+                                    <button type='button'
+                                        onClick={update}
+                                        id="submit-btn" 
+                                        className="inter-font-bold">
+                                        <span className='btn-span'>
+                                            Submit
+                                            </span>
+                                        </button>
+                                    <button type='button'
+                                        onClick={ocPopup}
+                                        id="close-btn" 
+                                        className="inter-font-bold">
+                                        <span className='btn-span'>
+                                            Close
+                                            </span>
+                                        </button>
+
+                                </div>
                                 </form>
                             </div>
                         </div>
@@ -97,8 +88,6 @@ const DropdownContent= (props: DropdownContentProps) => {
         ):(
             <div>
             <div className='dropdown-content'>
-
-              <div className='dropdown-item inter-font'>{props.user.user_name}</div>
               <div className='dropdown-item inter-font' onClick={ocPopup}>Profile</div>
               <a className="dropdown-item inter-font" 
                   href="http://Coinbase.com/login" 

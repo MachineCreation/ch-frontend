@@ -1,11 +1,11 @@
 import { useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { User } from "./types"
+import { User } from "./types";
 import logo from '../images/Crypto-hindsight-logo.png';
 import dropButton from '../images/menu_button.png';
 import DropdownContent from '../components/drop-menu';
-
+import ParentComponent from '../components/graph-parent';
 
 
 function dashboard() {
@@ -13,8 +13,10 @@ function dashboard() {
 
   const navigate = useNavigate()
   const [user, setUser] = useState<User | null>(null);
-  const [isvisable, setisVisable] = useState(false)
+  const [isvisable, setisVisable] = useState(false);
   const token = localStorage.getItem('token');
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,7 +29,7 @@ function dashboard() {
         });
         setUser(response.data);
       } catch (error: any) {
-        if (error.response && error.response.status === 401) {
+        if (error.response.status === 500) {
           // Handle unauthorized access
           navigate('/');
         } else {
@@ -42,10 +44,13 @@ function dashboard() {
   const DropMenu = async ()=> {
       setisVisable(!isvisable)
       console.log(isvisable)
+  };
+
+  const logout = () => {
+    localStorage.clear();
+    setUser(null)
+    navigate('/')
   }
-
-  
-
 
   return (
     <div>
@@ -55,27 +60,34 @@ function dashboard() {
         <div>
           <div className="main-container">
           <div className="nav-header">
-        <div className="crypto-hindsight-logo-box">
-          <img className='logo' src={logo}></img>
-        </div>
-          <div onClick={DropMenu} className="menu-button">
-            <img  src={dropButton}></img>
-          </div>
-          { !isvisable ?
-           (
-            <></>
-           ):(
-              <div className='close-aux-menu'>                           
-                <DropdownContent 
-                user={user}
-                isvisable = {isvisable}
-                DropMenu = {DropMenu}
-                 />
+            <div className="crypto-hindsight-logo-box">
+              <img className='logo' src={logo}></img>
               </div>
-           )
-            }
-          
-      </div>
+            <div onClick={DropMenu} className="menu-button">
+              <img  src={dropButton}></img>
+              </div>
+                { !isvisable ?
+                (
+                <></>
+                ):(
+                  <div className='close-aux-menu'>                           
+                    <DropdownContent 
+                    user={user}
+                    isvisable = {isvisable}
+                    DropMenu = {DropMenu}
+                      />
+                    </div>
+                  )
+                  }
+
+          </div>
+          <div className='logout inter-font t-white'>
+            <h5  className='margin-2'><span className='logout-link' onClick={logout}>Logout</span></h5>
+          </div>
+          <div>
+            <ParentComponent
+              user = {user}  />
+          </div>
           </div>
         </div>
       ):(

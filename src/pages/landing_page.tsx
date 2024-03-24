@@ -20,7 +20,7 @@ function landing_page() {
         try {
           const response = await axios.post('https://chbackend-psu2.onrender.com/signin', 
             { 
-              email,
+              user_name,
               password
             });
           const token = response.data.token;
@@ -124,8 +124,8 @@ function landing_page() {
             <form className='user-info-form'>
                 <input type="text"
                   className='sign-log-input'
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={user_name}
+                  onChange={(e) => setUser_name(e.target.value)}
                   placeholder='User name'>
                     </input>
 
