@@ -17,14 +17,14 @@ const LineGraph= (props: LineGraphProps) => {
 
   useEffect(() => {
     const fetchData = async () => {
-     const fetchedData1 = await fetchDataFunction1();
-     const fetchedData2 = await fetchDataFunction2();
-     const fetchedData3 = await fetchDataFunction3();
-     const fetchedData4 = await fetchDataFunction4();
-      // const fetchedData1 = await fetchBTCPriceOverLast6Months(props.user.red);
-      // const fetchedData2 = await fetchBTCPriceOverLast6Months(props.user.blue);
-      // const fetchedData3 = await fetchBTCPriceOverLast6Months(props.user.green);
-      // const fetchedData4 = await fetchBTCPriceOverLast6Months(props.user.yellow);
+    //  const fetchedData1 = await fetchDataFunction1();
+    //  const fetchedData2 = await fetchDataFunction2();
+    //  const fetchedData3 = await fetchDataFunction3();
+    //  const fetchedData4 = await fetchDataFunction4();
+      const fetchedData1 = await fetchBTCPriceOverLast6Months(props.user.red);
+      const fetchedData2 = await fetchBTCPriceOverLast6Months(props.user.blue);
+      const fetchedData3 = await fetchBTCPriceOverLast6Months(props.user.green);
+      const fetchedData4 = await fetchBTCPriceOverLast6Months(props.user.yellow);
       setData([fetchedData1, fetchedData2, fetchedData3, fetchedData4]);
     };
 
@@ -82,60 +82,60 @@ const LineGraph= (props: LineGraphProps) => {
 
 
                                                                 // Example async data fetching functions
-const fetchDataFunction1 = async () => {
- const res = Array.from({ length: 50 }, () => Math.floor(Math.random() * 100));
- console.log(res)
- return res
-};
+// const fetchDataFunction1 = async () => {
+//  const res = Array.from({ length: 50 }, () => Math.floor(Math.random() * 100));
+//  console.log(res)
+//  return res
+// };
 
-const fetchDataFunction2 = async () => {
- return Array.from({ length: 50 }, () => Math.floor(Math.random() * 100));
-};
+// const fetchDataFunction2 = async () => {
+//  return Array.from({ length: 50 }, () => Math.floor(Math.random() * 100));
+// };
 
-const fetchDataFunction3 = async () => {
- return Array.from({ length: 50 }, () => Math.floor(Math.random() * 100));
-};
+// const fetchDataFunction3 = async () => {
+//  return Array.from({ length: 50 }, () => Math.floor(Math.random() * 100));
+// };
 
-const fetchDataFunction4 = async () => {
- return Array.from({ length: 50 }, () => Math.floor(Math.random() * 100));
-};
+// const fetchDataFunction4 = async () => {
+//  return Array.from({ length: 50 }, () => Math.floor(Math.random() * 100));
+// };
 
 
                                                                 // the real deal api calls
 
-// const fetchBTCPriceOverLast6Months = async (coin:string): Promise<number[]> => {
-//   try {
-//     const currentDate = new Date();
-//     const sixMonthsAgoDate = new Date();
-//     sixMonthsAgoDate.setMonth(sixMonthsAgoDate.getMonth() - 6);
+const fetchBTCPriceOverLast6Months = async (coin:string): Promise<number[]> => {
+  try {
+    const currentDate = new Date();
+    const sixMonthsAgoDate = new Date();
+    sixMonthsAgoDate.setMonth(sixMonthsAgoDate.getMonth() - 1);
 
-//     const prices: number[] = [];
+    const prices: number[] = [];
 
-//     let currentDateCopy = new Date(sixMonthsAgoDate);
+    let currentDateCopy = new Date(sixMonthsAgoDate);
 
-//     while (currentDateCopy <= currentDate) {
-//       const dateString = currentDateCopy.toISOString().split('T')[0];
+    while (currentDateCopy <= currentDate) {
+      const dateString = currentDateCopy.toISOString().split('T')[0];
 
-//       const response = await fetch(`https://api.coinbase.com/v2/prices/${coin}-USD/spot?date=${dateString}`);
-//       const data = await response.json();
+      const response = await fetch(`https://api.coinbase.com/v2/prices/${coin}-USD/spot?date=${dateString}`);
+      const data = await response.json();
 
-//       if (!data.data || !data.data.amount) {
-//         throw new Error('Invalid response format');
-//       }
+      if (!data.data || !data.data.amount) {
+        throw new Error('Invalid response format');
+      }
 
-//       const price: number = parseFloat(data.data.amount);
-//       prices.push(price);
+      const price: number = parseFloat(data.data.amount);
+      prices.push(price);
 
-     
-//       currentDateCopy.setDate(currentDateCopy.getDate() + 1);
-//     }
 
-//     return prices;
-//   } catch (error) {
-//     console.error('Error fetching BTC prices:', error);
-//     throw error;
-//   }
-// };
+      currentDateCopy.setDate(currentDateCopy.getDate() + 1);
+    }
+
+    return prices;
+  } catch (error) {
+    console.error('Error fetching BTC prices:', error);
+    throw error;
+  }
+};
 
 
 // const fetchBTCPriceOverLast6Months = async (coin: string): Promise<number[]> => {
