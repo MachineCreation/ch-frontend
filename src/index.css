@@ -236,7 +236,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: #ffffff3d;
+      background-color: #3f3f3f;
       padding: 20px;
       border-radius: 5px;
       box-shadow: inset 0px 0px 40px 5px rgba(0,20,202,0.5);
@@ -334,6 +334,7 @@
                                                                 /* Graf data--- yes spelled with an f. d3 has too many variables that have to do with graphs. */
 
   .graf-box {
+    position: static;
     width: 100vw;
     min-width: 300px;
     height: 60vh;

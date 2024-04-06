@@ -1,6 +1,6 @@
 import  { useEffect, useRef, useState } from 'react';
-import LineGraph from './graph';
 import { User } from '../pages/types';
+import MultiLineGraph from './mult';
 
 
 interface ParentComponentProps {
@@ -226,7 +226,7 @@ const ParentComponent= (props: ParentComponentProps) => {
             </div>
         </div>
         <div ref={grafBoxRef} className="graf-box">
-            <LineGraph 
+            <MultiLineGraph 
                 width={width} 
                 height={height} 
                 user = {props.user}
