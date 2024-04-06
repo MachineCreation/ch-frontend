@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import { User } from '../pages/types';
+import axios from 'axios';
 
 interface LineGraphProps {
   width: number;
@@ -21,10 +22,11 @@ const LineGraph= (props: LineGraphProps) => {
     //  const fetchedData2 = await fetchDataFunction2();
     //  const fetchedData3 = await fetchDataFunction3();
     //  const fetchedData4 = await fetchDataFunction4();
-      const fetchedData1 = await fetchBTCPriceOverLast6Months(props.user.red);
-      const fetchedData2 = await fetchBTCPriceOverLast6Months(props.user.blue);
-      const fetchedData3 = await fetchBTCPriceOverLast6Months(props.user.green);
-      const fetchedData4 = await fetchBTCPriceOverLast6Months(props.user.yellow);
+      const fetchedData1 = await fetchPriceHistory(props.user.red)
+      const fetchedData2 = await fetchPriceHistory(props.user.blue)
+      const fetchedData3 = await fetchPriceHistory(props.user.green)
+      const fetchedData4 = await fetchPriceHistory(props.user.yellow)
+      
       setData([fetchedData1, fetchedData2, fetchedData3, fetchedData4]);
     };
 
@@ -103,71 +105,32 @@ const LineGraph= (props: LineGraphProps) => {
 
                                                                 // the real deal api calls
 
-const fetchBTCPriceOverLast6Months = async (coin:string): Promise<number[]> => {
+
+const fetchPriceHistory = async (coin: string): Promise<number[]> => {
   try {
     const currentDate = new Date();
-    const sixMonthsAgoDate = new Date();
-    sixMonthsAgoDate.setMonth(sixMonthsAgoDate.getMonth() - 1);
+    const historicMark = new Date();
+    historicMark.setDate(currentDate.getDate() - 180);
+    const historicMarkiso = historicMark.toISOString();
+    const currentDateiso = currentDate.toISOString();
 
     const prices: number[] = [];
 
-    let currentDateCopy = new Date(sixMonthsAgoDate);
+    const response = await axios.get(`https://api.pro.coinbase.com/products/${coin}-USD/candles?start=${historicMarkiso}&end=${currentDateiso}&granularity=86400`);
+    
+    const data = response.data;
 
-    while (currentDateCopy <= currentDate) {
-      const dateString = currentDateCopy.toISOString().split('T')[0];
-
-      const response = await fetch(`https://api.coinbase.com/v2/prices/${coin}-USD/spot?date=${dateString}`);
-      const data = await response.json();
-
-      if (!data.data || !data.data.amount) {
-        throw new Error('Invalid response format');
-      }
-
-      const price: number = parseFloat(data.data.amount);
+    // Extract prices from the data and add to the prices array
+    data.forEach((item: any) => {
+      const price = item[4]; // Assuming the price is at index 4
       prices.push(price);
-
-
-      currentDateCopy.setDate(currentDateCopy.getDate() + 1);
-    }
+    });
 
     return prices;
   } catch (error) {
-    console.error('Error fetching BTC prices:', error);
+    console.error('Error fetching price history:', error);
     throw error;
   }
 };
 
-
-// const fetchBTCPriceOverLast6Months = async (coin: string): Promise<number[]> => {
-//   try {
-//     const currentDate = new Date();
-//     const sixMonthsAgoDate = new Date();
-//     sixMonthsAgoDate.setDate(currentDate.getDate() - 180);
-
-//     const prices: number[] = [];
-
-//     let currentDateCopy = new Date(sixMonthsAgoDate);
-
-//     while (currentDateCopy <= currentDate) {
-//       const dateString = currentDateCopy.toISOString().split('T')[0];
-
-//       const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coin}/history?date=${dateString}`);
-//       const data = await response.json();
-
-//       if (!data.prices || !data.prices[0] || !data.prices[0][1]) {
-//         throw new Error('Invalid response format');
-//       }
-
-//       const price: number = data.prices[0][1];
-//       prices.push(price);
-
-//       currentDateCopy.setDate(currentDateCopy.getDate() + 1);
-//     }
-
-//     return prices;
-//   } catch (error) {
-//     console.error('Error fetching cryptocurrency prices:', error);
-//     throw error;
-//   }
-// };
 export default LineGraph;
