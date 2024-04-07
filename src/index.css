@@ -251,6 +251,15 @@
     width: 80%;
   }
 
+
+  .feature-list {
+    text-align: left;
+  }
+
+  li {
+    margin: 15px;
+  }
+
   .button-box {
     display: flex;
     justify-content: space-around;

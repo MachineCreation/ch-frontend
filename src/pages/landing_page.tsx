@@ -97,7 +97,7 @@ function landing_page() {
                     </input>
 
               <div>
-                <h4 className='t-cyan margin-2'>Don't have a Coinbase API key get one <a href='coinbase.com/login' target='new'>here</a></h4>
+                <h4 className='t-cyan margin-2'>This sight is powered by Coinbase API learn more at <a href='https:\\coinbase.com' target='blank'>coinbase.com</a></h4>
               <button type='button'
                   onClick={register}
                   id="submit-btn" 
