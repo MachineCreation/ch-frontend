@@ -1,5 +1,6 @@
 import { User } from '../pages/types';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface DropdownContentProps {
   user: User;
@@ -11,17 +12,36 @@ interface DropdownContentProps {
 
 const DropdownContent= (props: DropdownContentProps) => {
 
-    // const [APIkey , setAPIkey] = useState(props.user.APIkey)
-    const [vismodal, setvisModal] = useState(false);
-    // const token = localStorage.getItem('token');
-    // const new_key = {"API_key": APIkey}
+        // const [APIkey , setAPIkey] = useState(props.user.APIkey)
+        const navigate = useNavigate()
+        const [vismodal, setvisModal] = useState(false);
+        const token = localStorage.getItem('token');
+        // const new_key = {"API_key": APIkey}
+        
     
-
-    const ocPopup = async ()=> {
-        setvisModal(!vismodal);
-    };
-
-
+        const ocPopup = async ()=> {
+            setvisModal(!vismodal);
+        };
+    
+        const userDelete = async () => {
+            const response = await fetch(`https://chbackend-psu2.onrender.com/delete`,
+            {
+                method: 'delete',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'x-access-token': `Bearer ${token}`
+                },
+            })
+            userDelete();
+            if (!response.ok) {
+                throw new Error('Failed to delete user');
+            }
+            else {
+                navigate('/');
+            };
+            return await response.json()
+        }
 
 
 //   const update = async () => {
@@ -110,7 +130,8 @@ const DropdownContent= (props: DropdownContentProps) => {
                                         <li>
                                             And more!
                                         </li>
-                                    </ul>
+                                        </ul>
+                                    <div className="button-box">
                                     <button type='button'
                                         onClick={ocPopup}
                                         id="close-btn" 
@@ -119,6 +140,16 @@ const DropdownContent= (props: DropdownContentProps) => {
                                             Close
                                             </span>
                                         </button>
+                                    <button type='button'
+                                        onClick={userDelete}
+                                        id="close-btn" 
+                                        className="inter-font-bold">
+                                        <span className='btn-span'>
+                                            Delete Account
+                                            </span>
+                                        </button>    
+                                        
+                                    </div>
                                 </h5>
                                 
                             </div>
