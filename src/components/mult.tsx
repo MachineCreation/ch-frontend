@@ -14,6 +14,7 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
   const svgRef1 = useRef<SVGSVGElement>(null);
   const svgRef2 = useRef<SVGSVGElement>(null);
   const svgRef3 = useRef<SVGSVGElement>(null);
+  const gBox = useRef<HTMLDivElement>(null)
 
 
   // Fetch data for each dataset
@@ -36,6 +37,8 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
       throw error;
     }
   };
+
+  // const colors = ['red', 'blue', 'green', 'yellow'];
 
   useEffect(() => {
     // Fetch data for each dataset
@@ -61,16 +64,18 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
 
     const svg = d3.select(svgRef.current);
 
+    const min_data = Math.min(...data)                          // added min of array for graph
+    const max_data = Math.max(...data)
     const margin = { top: 20, right: 30, bottom: 30, left: 40 };
     const innerWidth = props.width - margin.left - margin.right;
     const innerHeight = props.height - margin.top - margin.bottom;
 
     const xScale = d3.scaleLinear()
-      .domain([data.length, 0 - 1])
+      .domain([data.length, 0])
       .range([0, innerWidth]);
 
     const yScale = d3.scaleLinear()
-      .domain([0, d3.max(data) || 0])
+      .domain([min_data - (min_data * .05), max_data + (max_data * .05) || 0])                    // changed min of domain from 0 to to min array
       .range([innerHeight, 0]);
 
     const lineGenerator = d3.line<number>()
@@ -83,7 +88,7 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
       .datum(data)
       .attr('fill', 'none')
       .attr('stroke', 'red')
-      .attr('stroke-width', 1.5)
+      .attr('stroke-width', 2.5)                                //changed stroke width from 1.5 to 2.5
       .attr('d', lineGenerator)
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
@@ -109,6 +114,8 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
 
     const svg = d3.select(ref.current);
 
+    const min_data = Math.min(...data)                          // added min of array for graph
+    const max_data = Math.max(...data)
     const margin = { top: 20, right: 30, bottom: 30, left: 40 };
     const innerWidth = props.width - margin.left - margin.right;
     const innerHeight = props.height - margin.top - margin.bottom;
@@ -118,8 +125,8 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
       .range([0, innerWidth]);
 
     const yScale = d3.scaleLinear()
-      .domain([0, d3.max(data) || 0])
-      .range([innerHeight, 0]);
+    .domain([min_data - (min_data * .05), max_data + (max_data * .05) || 0])                    // changed min of domain from 0 to to min array
+    .range([innerHeight, 0]);
 
     const lineGenerator = d3.line<number>()
       .x((_, i) => xScale(i))
@@ -131,7 +138,7 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
       .datum(data)
       .attr('fill', 'none')
       .attr('stroke', color)
-      .attr('stroke-width', 1.5)
+      .attr('stroke-width', 2.5)                                //changed stroke width from 1.5 to 2.5
       .attr('d', lineGenerator)
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
@@ -149,9 +156,23 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
       .remove();
   };
 
+  // useEffect(() => {
+  //   const hammer = () => {
+  //     if (gBox.current) {
+  //       const box = gBox.current.getBoundingClientRect();
+  //       if (box.height === 0) {
+  //         window.location.reload();
+  //         console.log("true")
+  //       };
+  //     }
+  //   };
+  //   hammer();
+  // }, []);
+
+
   return (
 
-    <div style={{ position: 'relative' }}>
+    <div ref={gBox} style={{ position: 'relative' }}>
         <div style={{ position: 'absolute', top: 0, left: 0 }}>
             <svg ref={svgRef} width={props.width} height={props.height}></svg>
         </div>

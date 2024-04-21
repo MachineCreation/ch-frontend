@@ -129,6 +129,19 @@ const ParentComponent= (props: ParentComponentProps) => {
     };
   }, []);
 
+  useEffect(() => {
+    const hammer = () => {
+      if (grafBoxRef.current) {
+        const box = grafBoxRef.current.getBoundingClientRect();
+        if (box.height === 0) {
+          window.location.reload();
+          console.log("true")
+        };
+      }
+    };
+    hammer();
+  });
+
   return (
     <div>
         <div className='search-grid inter_font'>
