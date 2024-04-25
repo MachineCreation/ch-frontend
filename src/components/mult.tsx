@@ -1,11 +1,9 @@
-import { useEffect, useRef} from 'react';
+import { useEffect, useState, useRef} from 'react';
 import * as d3 from 'd3';
 import { User } from '../pages/types';
 import axios from 'axios';
 
 interface MultiLineGraphProps {
-  width: number;
-  height: number;
   user: User;
 }
 
@@ -14,7 +12,55 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
   const svgRef1 = useRef<SVGSVGElement>(null);
   const svgRef2 = useRef<SVGSVGElement>(null);
   const svgRef3 = useRef<SVGSVGElement>(null);
-  const gBox = useRef<HTMLDivElement>(null)
+  const [width, setWidth] = useState(1200); 
+  const [height, setHeight] = useState(600);
+
+  useEffect(() => {
+    // Define MediaQueryLists for different breakpoints
+    const screenPhone = window.matchMedia("(max-width: 500px)");
+    const screenTablet = window.matchMedia("(max-width: 800px)");
+    const screenDesktop = window.matchMedia("(max-width: 1200px)");
+
+    // Function to handle navigation updates based on the active media query
+    const handleScreenChange = () => {
+      if (screenPhone.matches) {
+        console.log("Phone view activated");
+        // Logic for phone screens
+        setWidth(350);
+        setHeight(350);
+      } else if (screenTablet.matches) {
+        console.log("Tablet view activated");
+        // Logic for tablet screens
+        setWidth(500);
+        setHeight(400);
+      } else if (screenDesktop.matches) {
+        console.log("Desktop view activated");
+        // Logic for larger screens
+        setWidth(800);
+        setHeight(600);
+      } else {
+        console.log("Large Desktop View activated");
+        // deafault logic used 
+        setWidth(1200);
+        setHeight(600);
+      }
+    };
+
+    // Add event listeners
+    screenPhone.addEventListener('change', handleScreenChange);
+    screenTablet.addEventListener('change', handleScreenChange);
+    screenDesktop.addEventListener('change', handleScreenChange);
+
+    // Initial check on component mount
+    handleScreenChange();
+
+    // Cleanup function to remove event listeners on component unmount
+    return () => {
+      screenPhone.removeEventListener('change', handleScreenChange);
+      screenTablet.removeEventListener('change', handleScreenChange);
+      screenDesktop.removeEventListener('change', handleScreenChange);
+    };
+  }, []);
 
 
   // Fetch data for each dataset
@@ -57,7 +103,7 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
     };
     
     fetchDataForAll();
-  }, [props.width, props.height]);
+  }, [width, height]);
 
   const renderLineGraph = (data: number[]) => {
     if (!svgRef.current) return;
@@ -67,8 +113,8 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
     const min_data = Math.min(...data)                          // added min of array for graph
     const max_data = Math.max(...data)
     const margin = { top: 20, right: 30, bottom: 30, left: 40 };
-    const innerWidth = props.width - margin.left - margin.right;
-    const innerHeight = props.height - margin.top - margin.bottom;
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
 
     const xScale = d3.scaleLinear()
       .domain([data.length, 0])
@@ -88,7 +134,7 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
       .datum(data)
       .attr('fill', 'none')
       .attr('stroke', 'red')
-      .attr('stroke-width', 2.5)                                //changed stroke width from 1.5 to 2.5
+      .attr('stroke-width', 1.75)                                //changed stroke width from 1.5 to 2.5
       .attr('d', lineGenerator)
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
@@ -117,8 +163,8 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
     const min_data = Math.min(...data)                          // added min of array for graph
     const max_data = Math.max(...data)
     const margin = { top: 20, right: 30, bottom: 30, left: 40 };
-    const innerWidth = props.width - margin.left - margin.right;
-    const innerHeight = props.height - margin.top - margin.bottom;
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
 
     const xScale = d3.scaleLinear()
       .domain([data.length, 0 - 1])
@@ -138,7 +184,7 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
       .datum(data)
       .attr('fill', 'none')
       .attr('stroke', color)
-      .attr('stroke-width', 2.5)                                //changed stroke width from 1.5 to 2.5
+      .attr('stroke-width', 1.75)                                //changed stroke width from 1.5 to 2.5
       .attr('d', lineGenerator)
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
@@ -156,34 +202,24 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
       .remove();
   };
 
-  // useEffect(() => {
-  //   const hammer = () => {
-  //     if (gBox.current) {
-  //       const box = gBox.current.getBoundingClientRect();
-  //       if (box.height === 0) {
-  //         window.location.reload();
-  //         console.log("true")
-  //       };
-  //     }
-  //   };
-  //   hammer();
-  // }, []);
-
+  useEffect(() => {
+    window.dispatchEvent(new Event('resize'))
+  },[])
 
   return (
 
-    <div ref={gBox} style={{ position: 'relative' }}>
+    <div id='nail' style={{ position: 'relative' }}>
         <div style={{ position: 'absolute', top: 0, left: 0 }}>
-            <svg ref={svgRef} width={props.width} height={props.height}></svg>
+            <svg ref={svgRef} width={width} height={height}></svg>
         </div>
         <div style={{ position: 'absolute', top: 0, left: 0 }}>
-            <svg ref={svgRef1} width={props.width} height={props.height}></svg>
+            <svg ref={svgRef1} width={width} height={height}></svg>
         </div>
         <div style={{ position: 'absolute', top: 0, left: 0 }}>
-            <svg ref={svgRef2} width={props.width} height={props.height}></svg>
+            <svg ref={svgRef2} width={width} height={height}></svg>
         </div>
         <div style={{ position: 'absolute', top: 0, left: 0 }}>
-            <svg ref={svgRef3} width={props.width} height={props.height}></svg>
+            <svg ref={svgRef3} width={width} height={height}></svg>
         </div>
     </div>
     

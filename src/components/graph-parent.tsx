@@ -1,4 +1,4 @@
-import  { useEffect, useRef, useState } from 'react';
+import  {useRef, useState } from 'react';
 import { User } from '../pages/types';
 import MultiLineGraph from './mult';
 
@@ -9,9 +9,8 @@ interface ParentComponentProps {
 
 
 const ParentComponent= (props: ParentComponentProps) => {
-    const grafBoxRef = useRef<HTMLDivElement>(null); 
-    const [width, setWidth] = useState(0); 
-    const [height, setHeight] = useState(0); 
+
+    const grafBoxRef = useRef<HTMLDivElement>(null);
     const [red, setRed] = useState(props.user.red);
     const [blue, setBlue] = useState(props.user.blue);
     const [green, setGreen] =useState(props.user.green);
@@ -111,36 +110,20 @@ const ParentComponent= (props: ParentComponentProps) => {
         return await response.json()
     }
 
-    useEffect(() => {
-    const handleResize = () => {
-      if (grafBoxRef.current) {
-        const box = grafBoxRef.current.getBoundingClientRect();
-        setWidth(box.width);
-        setHeight(box.height);
-      }
-    };
+ 
+    // const handleResize = () => {
+    //   if (grafBoxRef.current) {
+    //     const box = grafBoxRef.current.getBoundingClientRect();
+    //     setWidth(box.width);
+    //     setHeight(box.height);
+    //   }
+    // };
 
-    handleResize(); 
+    // window.addEventListener('resize', handleResize); 
 
-    window.addEventListener('resize', handleResize); 
-
-    return () => {
-      window.removeEventListener('resize', handleResize); 
-    };
-  }, []);
-
-  useEffect(() => {
-    const hammer = () => {
-      if (grafBoxRef.current) {
-        const box = grafBoxRef.current.getBoundingClientRect();
-        if (box.height === 0) {
-          window.location.reload();
-          console.log("true")
-        };
-      }
-    };
-    hammer();
-  });
+    // useEffect(() => {
+    //     window.dispatchEvent(new Event('resize'))
+    // },[])
 
   return (
     <div>
@@ -238,10 +221,8 @@ const ParentComponent= (props: ParentComponentProps) => {
                 <p className='t-white' style={{margin: 'auto',}}>Selected Crypto: <span id='yellow'>{yellow}</span></p>
             </div>
         </div>
-        <div ref={grafBoxRef} className="graf-box">
+        <div ref={grafBoxRef} id="graf-box">
             <MultiLineGraph 
-                width={width} 
-                height={height} 
                 user = {props.user}
                     />
                 </div>

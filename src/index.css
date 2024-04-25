@@ -342,26 +342,35 @@
 
                                                                 /* Graf data--- yes spelled with an f. d3 has too many variables that have to do with graphs. */
 
-  .graf-box {
+  #graf-box {
+    /* background-color: black; */
     position: static;
+    display: flex;
     width: 1200px;
-    height: 60vh;
+    height: 600px;
     margin: auto;
   }
 
   @media screen and (width < 1200px) {
-    .graf-box{
+    #graf-box, #nail{
       width: 800px;
+      height: 600px;
     }
   }
 
   @media screen and (width < 800px) {
-    .graf-box{
+    #graf-box, #nail{
       width: 500px;
       height: 400px;
     }
   }
 
+  @media screen and (width < 500px) {
+    #graf-box, #nail{
+      width: 350px;
+      height: 350px;
+    }
+  }
 
   .logout {
     margin-top: 130px;
