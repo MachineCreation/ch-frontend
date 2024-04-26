@@ -36,8 +36,9 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
       } else if (screenDesktop.matches) {
         console.log("Desktop view activated");
         // Logic for larger screens
-        setWidth(800);
         setHeight(600);
+        setWidth(800);
+        console.log(width, height);
       } else {
         console.log("Large Desktop View activated");
         // deafault logic used 

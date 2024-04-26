@@ -113,24 +113,30 @@ const DropdownContent= (props: DropdownContentProps) => {
                                     and their behavior over the last 6 months.
                                     <br></br>
                                     <br></br>
-                                    More features are in the works! to include:
+                                    <span className='t-white'>latest update 4-26-2024:</span>
                                     <ul className='feature-list'>
-                                        <li>
-                                            Graphs coresponding with the users coin choices to show custom time periods
-                                        </li>
                                         <li>
                                             A more comprehensive list of coin choices.
                                         </li>
                                         <li>
                                             Better coin list functionality.
                                         </li>
+                                    </ul>
+                                    <span className='t-white'>still to come:</span>
+                                    <ul>
+                                        <li>
+                                            Graphs coresponding with the users coin choices to show custom time periods
+                                        </li>
                                         <li>
                                             Time zone option.
                                         </li>
                                         <li>
+                                            "top movers" ticker
+                                        </li>
+                                        <li>
                                             And more!
                                         </li>
-                                        </ul>
+                                     </ul>
                                     <div className="button-box">
                                     <button type='button'
                                         onClick={ocPopup}

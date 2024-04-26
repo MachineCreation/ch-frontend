@@ -20,6 +20,7 @@ function dashboard() {
 
   useEffect(() => {
     const fetchData = async () => {
+      // check for proper auth token
       try {
         const response = await axios.get(`https://chbackend-psu2.onrender.com/@me`, {
         headers:  
@@ -45,6 +46,7 @@ function dashboard() {
       setisVisable(!isvisable)
       console.log(isvisable)
   };
+
 
   const logout = () => {
     localStorage.clear();
