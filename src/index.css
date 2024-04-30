@@ -357,15 +357,25 @@
     /* background-color: black; */
     position: static;
     display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    width: fit-content;
+    height: 700px;
+    margin: 20px auto 20px;
+  }
+
+  #nail {
+    background-color: #141414;
+    /* border: 2px solid red; */
+    position: relative;
     width: 1200px;
-    height: 600px;
-    margin: auto;
+    height: 700px;
   }
 
   @media screen and (width < 1200px) {
     #graf-box, #nail{
       width: 800px;
-      height: 600px;
+      height: 700px;
     }
   }
 
@@ -382,6 +392,25 @@
       height: 350px;
     }
   }
+
+                                                                /* Day long candle charts */
+
+  .day-chart-parent {
+    display: flex;
+    flex-direction: column;
+    min-width: 360px;
+  }
+
+  .day-chart{
+    background-color: #141414;
+    margin: 5px;
+  }
+
+  .day-chart-title {
+    text-align: center;
+    margin: 2px;
+  }
+                                                                /* Log out link */
 
   .logout {
     margin-top: 130px;

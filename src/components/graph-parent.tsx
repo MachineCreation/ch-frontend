@@ -3,6 +3,7 @@ import { User } from '../pages/types';
 import MultiLineGraph from './mult';
 import axios from 'axios';
 import SearchBar from './searchbar';
+import DailyGraph from './daygraph';
 
 
 interface ParentComponentProps {
@@ -65,12 +66,26 @@ const ParentComponent= (props: ParentComponentProps) => {
             <MultiLineGraph 
                 user = {props.user}
                     />
-            {/* <div className="daylies">
-                <daylyGraph
+            <div className="day-chart-parent">
+                <DailyGraph
                     crypto= {props.user.red}
+                    color= 'red'
                     />
-            </div> */}
+                <DailyGraph
+                    crypto= {props.user.blue}
+                    color= 'blue'
+                    />
+                <DailyGraph
+                    crypto= {props.user.green}
+                    color= 'green'
+                    />
+                <DailyGraph
+                    crypto= {props.user.yellow}
+                    color= 'yellow'
+                    />
+            </div>
         </div>
+        
     </div>
   );
 };

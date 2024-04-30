@@ -13,7 +13,7 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
   const svgRef2 = useRef<SVGSVGElement>(null);
   const svgRef3 = useRef<SVGSVGElement>(null);
   const [width, setWidth] = useState(1200); 
-  const [height, setHeight] = useState(600);
+  const [height, setHeight] = useState(698);
 
   useEffect(() => {
     // Define MediaQueryLists for different breakpoints
@@ -36,14 +36,14 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
       } else if (screenDesktop.matches) {
         console.log("Desktop view activated");
         // Logic for larger screens
-        setHeight(600);
+        setHeight(700);
         setWidth(800);
         console.log(width, height);
       } else {
         console.log("Large Desktop View activated");
         // deafault logic used 
         setWidth(1200);
-        setHeight(600);
+        setHeight(700);
       }
     };
 
@@ -209,7 +209,7 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
 
   return (
 
-    <div id='nail' style={{ position: 'relative' }}>
+    <div id='nail'>
         <div style={{ position: 'absolute', top: 0, left: 0 }}>
             <svg ref={svgRef} width={width} height={height}></svg>
         </div>
