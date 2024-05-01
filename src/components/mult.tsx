@@ -14,6 +14,7 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
   const svgRef3 = useRef<SVGSVGElement>(null);
   const [width, setWidth] = useState(1200); 
   const [height, setHeight] = useState(698);
+  const [lineWidth, setLineWidth] = useState(1.75)
 
   useEffect(() => {
     // Define MediaQueryLists for different breakpoints
@@ -28,22 +29,25 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
         // Logic for phone screens
         setWidth(350);
         setHeight(350);
+        setLineWidth(1);
       } else if (screenTablet.matches) {
         console.log("Tablet view activated");
         // Logic for tablet screens
         setWidth(500);
         setHeight(400);
+        setLineWidth(1);
       } else if (screenDesktop.matches) {
         console.log("Desktop view activated");
         // Logic for larger screens
         setHeight(700);
         setWidth(800);
-        console.log(width, height);
+        setLineWidth(1.75);
       } else {
         console.log("Large Desktop View activated");
         // deafault logic used 
         setWidth(1200);
         setHeight(700);
+        setLineWidth(1.75);
       }
     };
 
@@ -97,16 +101,16 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
       const fetchedData3 = await fetchData(props.user.yellow);
       
       // Render line graphs with fetched data
-      renderLineGraph(fetchedData);
-      renderLineGraphs(fetchedData1, svgRef1, colors[1]);
-      renderLineGraphs(fetchedData2, svgRef2, colors[2]);
-      renderLineGraphs(fetchedData3, svgRef3, colors[3]);
+      renderLineGraph(fetchedData, lineWidth);
+      renderLineGraphs(fetchedData1, svgRef1, colors[1], lineWidth);
+      renderLineGraphs(fetchedData2, svgRef2, colors[2], lineWidth);
+      renderLineGraphs(fetchedData3, svgRef3, colors[3], lineWidth);
     };
     
     fetchDataForAll();
   }, [width, height]);
 
-  const renderLineGraph = (data: number[]) => {
+  const renderLineGraph = (data: number[], line: number) => {
     if (!svgRef.current) return;
 
     const svg = d3.select(svgRef.current);
@@ -135,7 +139,7 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
       .datum(data)
       .attr('fill', 'none')
       .attr('stroke', 'red')
-      .attr('stroke-width', 1.75)                                //changed stroke width from 1.5 to 2.5
+      .attr('stroke-width', line)                                //changed stroke width from 1.5 to 2.5
       .attr('d', lineGenerator)
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
@@ -156,7 +160,7 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
       .remove();
   };
 
-  const renderLineGraphs = (data: number[], ref: React.RefObject<SVGSVGElement>, color: string) => {
+  const renderLineGraphs = (data: number[], ref: React.RefObject<SVGSVGElement>, color: string, line: number) => {
     if (!ref.current) return;
 
     const svg = d3.select(ref.current);
@@ -185,7 +189,7 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
       .datum(data)
       .attr('fill', 'none')
       .attr('stroke', color)
-      .attr('stroke-width', 1.75)                                //changed stroke width from 1.5 to 2.5
+      .attr('stroke-width', line)                                //changed stroke width from 1.5 to 2.5
       .attr('d', lineGenerator)
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
@@ -210,16 +214,16 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
   return (
 
     <div id='nail'>
-        <div style={{ position: 'absolute', top: 0, left: 0 }}>
+        <div style={{ position: 'absolute', top: 0, left: 0, borderRadius: 10 }}>
             <svg ref={svgRef} width={width} height={height}></svg>
         </div>
-        <div style={{ position: 'absolute', top: 0, left: 0 }}>
+        <div style={{ position: 'absolute', top: 0, left: 0, borderRadius: 10 }}>
             <svg ref={svgRef1} width={width} height={height}></svg>
         </div>
-        <div style={{ position: 'absolute', top: 0, left: 0 }}>
+        <div style={{ position: 'absolute', top: 0, left: 0, borderRadius: 10 }}>
             <svg ref={svgRef2} width={width} height={height}></svg>
         </div>
-        <div style={{ position: 'absolute', top: 0, left: 0 }}>
+        <div style={{ position: 'absolute', top: 0, left: 0, borderRadius: 10 }}>
             <svg ref={svgRef3} width={width} height={height}></svg>
         </div>
     </div>

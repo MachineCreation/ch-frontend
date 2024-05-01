@@ -93,6 +93,7 @@
     position: absolute;
     display: flex;
     width: 188px;
+    min-width: 122px;
     max-width: 35%;
     align-self: center;
     left: 35px;
@@ -295,6 +296,7 @@
     display:flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    margin-bottom: 20px;
   }
   
   .search-bar {
@@ -354,40 +356,52 @@
                                                                 /* Graf data--- yes spelled with an f. d3 has too many variables that have to do with graphs. */
 
   #graf-box {
-    /* background-color: black; */
+    background-color: rgba(0,20,202,.3);
+    /* box-shadow: inset 0px 0px 40px 5px rgba(0,20,202,0.5); */
+    box-shadow: 0px 0px 40px 5px rgba(0,20,202,0.5);
+    border-radius: 4px;
     position: static;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     width: fit-content;
-    height: 700px;
-    margin: 20px auto 20px;
+    height: fit-content;
+    margin:  auto ;
+    padding: 5px;
   }
 
   #nail {
     background-color: #141414;
     /* border: 2px solid red; */
+    border-radius: 4px;
     position: relative;
     width: 1200px;
     height: 700px;
   }
 
+  .main-graf {
+    position: 'absolute';
+    top: 0;
+    left: 0;
+    border-radius: 4px;
+  }
+
   @media screen and (width < 1200px) {
-    #graf-box, #nail{
+    #nail{
       width: 800px;
       height: 700px;
     }
   }
 
   @media screen and (width < 800px) {
-    #graf-box, #nail{
+    #nail{
       width: 500px;
       height: 400px;
     }
   }
 
   @media screen and (width < 500px) {
-    #graf-box, #nail{
+    #nail{
       width: 350px;
       height: 350px;
     }
@@ -397,12 +411,27 @@
 
   .day-chart-parent {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     min-width: 360px;
   }
 
+  @media screen and (width < 1570px) {
+    .day-chart-parent{
+      flex-direction: row;
+      width: 100%;
+      justify-content: center;
+    }
+
+    #graf-box {
+      width: 100%;
+      justify-content: center;
+      margin: auto;
+    }
+  }
   .day-chart{
     background-color: #141414;
+    border-radius: 4px;
     margin: 5px;
   }
 

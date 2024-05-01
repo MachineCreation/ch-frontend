@@ -113,7 +113,16 @@ const DropdownContent= (props: DropdownContentProps) => {
                                     and their behavior over the last 6 months.
                                     <br></br>
                                     <br></br>
-                                    <span className='t-white'>latest update 4-26-2024:</span>
+                                    <span className='t-white'>latest update 5-1-2024:</span>
+                                    <ul className='feature-list'>
+                                        <li>
+                                            24hr candle charts for chosen coins.
+                                        </li>
+                                        <li>
+                                            responsive chart line width.
+                                        </li>
+                                    </ul>
+                                    <span className='t-white'>update 4-26-2024:</span>
                                     <ul className='feature-list'>
                                         <li>
                                             A more comprehensive list of coin choices.
