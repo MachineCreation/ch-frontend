@@ -33,7 +33,7 @@ const DailyGraph = (props: dayGraphProps) => {
                 const historicMarkiso = historicMark.toISOString();
                 const currentDateiso = currentDate.toISOString();
                 
-                const response = await axios.get(`https://api.pro.coinbase.com/products/${coin}-USD/candles?start=${historicMarkiso}&end=${currentDateiso}&granularity=3600`);
+                const response = await axios.get(`https://api.exchange.coinbase.com/products/${coin}-USD/candles?start=${historicMarkiso}&end=${currentDateiso}&granularity=3600`);
                 const rawData = response.data;
 
                 // Extract and set prices in the state

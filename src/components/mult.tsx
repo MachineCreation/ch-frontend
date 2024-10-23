@@ -77,7 +77,7 @@ const MultiLineGraph = (props: MultiLineGraphProps) => {
       const historicMarkiso = historicMark.toISOString();
       const currentDateiso = currentDate.toISOString();
       
-      const response = await axios.get(`https://api.pro.coinbase.com/products/${coin}-USD/candles?start=${historicMarkiso}&end=${currentDateiso}&granularity=86400`);
+      const response = await axios.get(`https://api.exchange.coinbase.com/products/${coin}-USD/candles?start=${historicMarkiso}&end=${currentDateiso}&granularity=86400`);
       const data = response.data;
       
       // Extract prices from the data
